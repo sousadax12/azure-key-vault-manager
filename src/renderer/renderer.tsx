@@ -6,11 +6,11 @@ import '_public/style.css';
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import App from './App';
 
 ReactDOM.render(
   <div className="app">
-    <h4>Welcome to React, Electron and Typescript</h4>
-    <p>Hello</p>
+    <App />
   </div>,
-  document.getElementById('app'),
+  document.getElementById('app')
 );

@@ -9,7 +9,9 @@
       "_main/*": ["src/main/*"],
       "_models/*": ["src/models/*"],
       "_renderer/*": ["src/renderer/*"],
-      "_utils/*": ["src/utils/*"]
+      "_utils/*": ["src/utils/*"],
+      "_styles/*": ["src/utils/*"],
+      "_theme": ["stitches.config"]
     },
     "module": "commonjs",
     "moduleResolution": "node",

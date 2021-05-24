@@ -24,6 +24,7 @@ const commonConfig = {
       _public: srcPaths('public'),
       _renderer: srcPaths('src/renderer'),
       _utils: srcPaths('src/utils'),
+      _theme: srcPaths('stitches.config'),
     },
     extensions: ['.js', '.json', '.ts', '.tsx'],
   },
@@ -60,7 +61,8 @@ mainConfig.plugins = [
       {
         from: 'package.json',
         to: 'package.json',
-        transform: (content, _path) => { // eslint-disable-line no-unused-vars
+        transform: (content, _path) => {
+          // eslint-disable-line no-unused-vars
           const jsonContent = JSON.parse(content);
 
           delete jsonContent.devDependencies;

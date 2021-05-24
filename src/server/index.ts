@@ -8,7 +8,7 @@ const port = 3000;
 
 app.get('/', async (req, res) => {
   const credential = new AzureCliCredential();
-  const vaultName = '';
+  const vaultName = 'test-tamo-vault';
   const url = `https://${vaultName}.vault.azure.net`;
 
   const client = new SecretClient(url, credential);
