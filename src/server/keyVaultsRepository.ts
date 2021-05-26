@@ -8,7 +8,6 @@ db.loadDatabase(function (err) {
 });
 
 export const getKeyVaults = () => new Promise((resolve, reject) => {
-  console.log(db);
   db.find({}, (err, docs) => {
     if (err) {
       reject(err);

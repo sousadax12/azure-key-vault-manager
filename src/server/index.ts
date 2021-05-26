@@ -4,12 +4,6 @@ import { SecretClient } from '@azure/keyvault-secrets';
 import { getKeyVaults, createKeyVault } from  './keyVaultsRepository';
 import * as bodyParser from 'body-parser';
 
-// create application/json parser
-const jsonParser = bodyParser.json();
-
-// create application/x-www-form-urlencoded parser
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
-
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
 const app = express();
 const port = 3000;
@@ -32,18 +26,21 @@ app.post('/key-vaults', async (req, res) => {
 });
 
 app.get('/', async (req, res) => {
-  console.log("getting test");
   const credential = new AzureCliCredential();
-  const vaultName = 'test-tamo-vault';
-  const url = `https://${vaultName}.vault.azure.net`;
-
-  const client = new SecretClient(url, credential);
-
-  const value = [];
-  for await (const secretProperties of client.listPropertiesOfSecrets()) {
-    console.log('Secret properties: ', secretProperties);
-    value.push(secretProperties);
+  const vaults = await getKeyVaults();
+  const secrets = {};
+  for (const vault of vaults) {
+    const vaultName = vault.name;
+    const url = `https://${vaultName}.vault.azure.net`;
+    const client = new SecretClient(url, credential);
+    for await (const secretProperties of client.listPropertiesOfSecrets()) {
+      if(! secrets[secretProperties.name]){
+        secrets[secretProperties.name] = {};
+      }
+      secretProperties.vault = vault;
+      secrets[secretProperties.name][vaultName] = secretProperties;
+    }
   }
 
-  res.send(value);
+  res.send(secrets);
 });
