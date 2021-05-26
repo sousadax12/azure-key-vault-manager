@@ -4,8 +4,9 @@ export const { styled, css, global, keyframes, getCssString, theme } =
   createCss({
     theme: {
       colors: {
-        lightBlue: '#dbf0ff',
-        darkBlue: '#5d78c4',
+        middarkgrey: '#414042',
+        darkgrey: '#272727',
+        darkwhite: '#f8f8f8',
       },
       space: {
         xs: '2px',
