@@ -26,17 +26,12 @@ const TableWrapper = styled('table', {
   },
 });
 
-interface TableProps<ModelType> {
+interface TableProps {
   columnHeaders: string[];
-  dataRows: ModelType[];
-  dataKeys?: (keyof ModelType)[];
+  dataRows: string[];
 }
 
-function Table<ModelType extends Record<string, unknown>>({
-  columnHeaders,
-  dataRows,
-  dataKeys = Object.keys(dataRows[0]),
-}: TableProps<ModelType>): JSX.Element {
+function Table({ columnHeaders, dataRows }: TableProps): JSX.Element {
   return (
     <TableWrapper as="table">
       <Box as="thead">
@@ -51,7 +46,7 @@ function Table<ModelType extends Record<string, unknown>>({
 
       <Box as="tbody">
         {dataRows.map((data, index) => (
-          <TableRow key={index} dataKeys={dataKeys} dataRow={data} />
+          <TableRow key={index} dataRow={data} />
         ))}
       </Box>
     </TableWrapper>

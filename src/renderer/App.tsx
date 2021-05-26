@@ -1,7 +1,13 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Table from '_/components/shared/Table';
-import { getAll, getAllKeyVault } from '_/services/keyVaultServices';
+import { KeyVaultResponse } from '_/models/SecretVault';
+import {
+  getAllSecretNames,
+  getSecret,
+  getSecretByName,
+} from '_/services/keyVaultSecretServices';
+import { getAll, getAllKeyVault, getByName } from '_/services/keyVaultServices';
 import { global } from '_theme';
 
 const globalStyles = global({
@@ -11,18 +17,31 @@ const globalStyles = global({
 const App = () => {
   globalStyles();
 
-  const [data, setData] = useState(null);
+  const [response, setResponse] = useState<KeyVaultResponse | null>(null);
 
   useEffect(() => {
     async function test(): Promise<void> {
-      const newData = await getAll();
-      setData(newData);
+      const newData = await getAllSecretNames();
+      setResponse(newData);
     }
 
     test();
   }, []);
 
-  return <div>{JSON.stringify(data)}</div>;
+  const keyVaults = response
+    ? new Set(
+        Object.entries(response).map(([_key, value]) => Object.keys(value)[0])
+      )
+    : [];
+
+  if (!response) return 'loading';
+
+  return (
+    <Table
+      columnHeaders={['', ...keyVaults]}
+      dataRows={Object.keys(response)}
+    />
+  );
 };
 
 export default App;
